@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, request
 
 app = Flask(__name__)
+app.secret_key = "laja86"
 
 
 @app.route('/')
@@ -24,6 +25,19 @@ def name(name, edad):
         'edad': edad
     }
     return render_template('contacto.html', data=data)
+
+
+@app.route('/hello')
+def hello():
+    flash("Cual es tu nombre?")
+    return render_template('hello.html')
+
+@app.route('/greet', methods=["POST", "GET"])
+def greet():
+    flash("Hola " + str(request.form['name_input'])+ ", bienvenidE de vuelta")
+    request.form['name_input']
+    return render_template('hello.html')
+
 
 
 def pagina_no_encontrada(error):
